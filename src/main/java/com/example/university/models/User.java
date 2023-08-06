@@ -26,6 +26,9 @@ public class User implements UserDetails {
     @Setter
     @Getter
     private String password;
+
+    @Setter
+    @Getter
     private String roles;
 
     public User() {
