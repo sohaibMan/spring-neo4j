@@ -6,6 +6,7 @@ import com.example.university.models.Course;
 import com.example.university.services.CourseEnrolmentService;
 import com.example.university.services.CourseService;
 import com.example.university.services.LessonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +25,14 @@ public class CourseController {
     private final LessonService lessonService;
     private final CourseEnrolmentService courseEnrolmentService;
 
+    @Autowired
     public CourseController(CourseService courseService, LessonService lessonService, CourseEnrolmentService courseEnrolmentService) {
         this.courseService = courseService;
         this.lessonService = lessonService;
         this.courseEnrolmentService = courseEnrolmentService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<CourseDTO>> courseIndex(Principal principal) {
         List<Course> courses = courseService.getAllCourses();
 
@@ -57,8 +59,9 @@ public class CourseController {
     @GetMapping("/{identifier}")
     public ResponseEntity<CourseDTO> courseDetails(@PathVariable String identifier, Principal principal) {
         Course course = courseService.getCourseByIdentifier(identifier);
-        CourseDTO responseCourse = new CourseDTO();
 
+        CourseDTO responseCourse = new CourseDTO();
+        
         responseCourse.setIdentifier(course.getIdentifier());
         responseCourse.setTitle(course.getTitle());
         responseCourse.setTeacher(course.getTeacher());
